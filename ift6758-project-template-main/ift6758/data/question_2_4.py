@@ -147,6 +147,7 @@ def return_tidy_df(games, clear_games = True):
             event_type = event['result']['event']
 
             if event_type == 'Shot':
+                event_id = event['about']['eventIdx']
                 attacking_team = event['team']['name']
                 attacking_player = get_player_name(event, 'Shooter')
                 goalie = get_player_name(event, 'Goalie')
@@ -166,6 +167,7 @@ def return_tidy_df(games, clear_games = True):
                              shot_ind, x_coordinates, y_coordinates, shot_type, empty_net, strength, gwg])
 
             elif event_type == 'Goal':
+                event_id = event['about']['eventIdx']
                 attacking_team = event['team']['name']
                 attacking_player = get_player_name(event, 'Scorer')
                 goalie = get_player_name(event, 'Goalie')
@@ -180,12 +182,12 @@ def return_tidy_df(games, clear_games = True):
                 strength = event['result']['strength']['name']
                 gwg = event['result']['gameWinningGoal']
                 
-                data.append([game_id, season, season_type, home_team, away_team, home_team_side_1st_period,
+                data.append([game_id, season, season_type, event_id, home_team, away_team, home_team_side_1st_period,
                              attacking_team, attacking_player, goalie, period, period_time, goal_ind, 
                              shot_ind, x_coordinates, y_coordinates, shot_type, empty_net, strength, gwg])
 
     df = pd.DataFrame(data, 
-                      columns=['game_id', 'season', 'season_type', 'home_team', 'away_team', 'home_team_side_1st_period', 
+                      columns=['game_id', 'season', 'season_type', 'event_id''home_team', 'away_team', 'home_team_side_1st_period', 
                                'attacking_team', 'attacking_player', 'goalie', 'period', 'period_time','goal_ind', 
                                'shot_ind', 'x_coordinates', 'y_coordinates', 'shot_type', 'empty_net', 'strength', 'gwg'])
     
